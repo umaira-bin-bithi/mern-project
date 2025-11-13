@@ -19,7 +19,7 @@ const paymentController = async (request, response) => {
             line_items: cartItems.map((item, index) => {
                 return {
                     price_data: {
-                        currency: 'inr',
+                        currency: 'BDT',
                         product_data: {
                             name: item.productId.productName,
                             images: item.productId.productImage,

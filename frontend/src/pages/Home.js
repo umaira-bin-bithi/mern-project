@@ -11,22 +11,26 @@ const Home = () => {
       <BannerProduct/>
 
       <HorizontalCardProduct category={"shoes"} heading={"Unique Top's Shoes"}/>
-      <HorizontalCardProduct category={"fashion-accessories"} heading={"Top's Fashion Accessories"}/>
+      <HorizontalCardProduct category={"kids"} heading={"Top's kids Accessories"}/>
 
       <VerticalCardProduct category={"mobiles"} heading={"Mobiles"}/>
-      <VerticalCardProduct category={"Mouse"} heading={"Mouse"}/>
+  
       <VerticalCardProduct category={"televisions"} heading={"Televisions"}/>
        <VerticalCardProduct category={"camera"} heading={"Camera & Photography"}/>
       
       <VerticalCardProduct category={"computers"} heading={"Computers"}/>
        <VerticalCardProduct category={"airpodes"} heading={"Top's Airpodes"}/>
      
-      <VerticalCardProduct category={"kids"} heading={"Top's Kids Accessories"}/>
+ 
      
       <VerticalCardProduct category={"speakers"} heading={"Bluetooth Speakers"}/>
       <VerticalCardProduct category={"refrigerator"} heading={"Refrigerator"}/>
+      
+        <VerticalCardProduct category={"accessories"} heading={"Top's Fashion Acessories"}/>
         <VerticalCardProduct category={"clothes"} heading={"Clothes"}/>
       <VerticalCardProduct category={"trimmers"} heading={"Trimmers"}/>
+          <VerticalCardProduct category={"Mouse"} heading={"Mouse"}/>
+      
     </div>
   )
 }

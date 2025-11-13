@@ -74,7 +74,7 @@ const SignUp = () => {
         </div>
 
         {/* -------- Right Side: Form -------- */}
-        <div className='bg-white p-6 w-full max-w-sm rounded-lg shadow-md'>
+        <div className='bg-white p-6 w-full max-w-sm rounded-lg shadow-md pb-0'>
           <div className='w-20 h-20 mx-auto relative overflow-hidden rounded-full'>
             <div>
               <img src={data.profilePic || loginIcons} alt='login icons' />

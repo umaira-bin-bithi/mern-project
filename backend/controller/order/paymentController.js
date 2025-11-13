@@ -12,12 +12,6 @@ const paymentController = async (request, response) => {
             mode: "payment",
             payment_method_types: ['card'],
             billing_address_collection: 'auto',
-            shipping_options: [
-                {
-                    // 🔹 Replace this ID with your new valid shipping rate ID from Stripe Dashboard
-                    shipping_rate: 'shr_1SSmo9QeIEPcoG9dmDkpcu4B'
-                }
-            ],
             customer_email: user.email,
             metadata: {
                 userId: request.userId
@@ -48,7 +42,7 @@ const paymentController = async (request, response) => {
 
         const session = await stripe.checkout.sessions.create(params)
 
-        response.status(303).json(session)
+        response.status(200).json(session)
 
     } catch (error) {
         response.json({

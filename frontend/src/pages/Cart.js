@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import SummaryApi from '../common'
 import Context from '../context'
 import displayINRCurrency from '../helpers/displayCurrency'
 import { MdDelete } from "react-icons/md";
-import { loadStripe } from '@stripe/stripe-js'; // Code 1 এর মতো import
+import { toast } from 'react-toastify'
 
 const Cart = () => {
     const [data,setData] = useState([])
@@ -12,7 +12,7 @@ const Cart = () => {
     const loadingCart = new Array(4).fill(null)
 
 
-    const fetchData = async() =>{
+    const fetchData = useCallback(async() =>{
         
         const response = await fetch(SummaryApi.addToCartProductView.url,{
             method : SummaryApi.addToCartProductView.method,
@@ -28,19 +28,19 @@ const Cart = () => {
         if(responseData.success){
             setData(responseData.data)
         }
-
-
-    }
-
-    const handleLoading = async() =>{
-        await fetchData()
-    }
+    },[])
 
     useEffect(()=>{
-        setLoading(true)
-        handleLoading()
-         setLoading(false)
-    },[])
+        const fetchCart = async () => {
+            try{
+                setLoading(true)
+                await fetchData()
+            }finally{
+                setLoading(false)
+            }
+        }
+        fetchCart()
+    },[fetchData])
 
 
     const increaseQty = async(id,qty) =>{
@@ -114,28 +114,36 @@ const Cart = () => {
         }
     }
 
-    // Stripe Checkout function added (from code 1)
     const handlePayment = async()=>{
-          
-        const stripePromise = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
-        const response = await fetch(SummaryApi.payment.url,{
-            method : SummaryApi.payment.method,
-            credentials : 'include',
-            headers : {
-                "content-type" : 'application/json'
-            },
-            body : JSON.stringify({
-                cartItems : data
+        try{
+            const response = await fetch(SummaryApi.payment.url,{
+                method : SummaryApi.payment.method,
+                credentials : 'include',
+                headers : {
+                    "content-type" : 'application/json'
+                },
+                body : JSON.stringify({
+                    cartItems : data
+                })
             })
-        })               
 
-        const responseData = await response.json()
+            const responseData = await response.json()
 
-        if(responseData?.id){
-            stripePromise.redirectToCheckout({ sessionId : responseData.id})
+            if(!response.ok || responseData?.success === false){
+                const message = responseData?.message || "Payment failed. Please try again."
+                toast.error(message)
+                return
+            }
+
+            if(responseData?.url){
+                window.location.href = responseData.url
+                return
+            }
+
+            toast.error("Payment session missing. Please contact support.")
+        }catch(error){
+            toast.error(error?.message || "Payment failed. Please try again.")
         }
-
-        console.log("payment response",responseData)
     }
 
     const totalQty = data.reduce((previousValue,currentValue)=> previousValue + currentValue.quantity,0)

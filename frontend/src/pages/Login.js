@@ -7,7 +7,7 @@ import SummaryApi from '../common';
 import { toast } from 'react-toastify';
 import Context from '../context';
 import Lottie from 'lottie-react';
-import loginLottie from '../assest/lottie/login.json'; // 👈 এখানে তোমার Lottie ফাইল রাখবে
+import loginLottie from '../assest/lottie/login.json';
 
 const Login = () => {
     const [showPassword,setShowPassword] = useState(false)
